@@ -1,4 +1,5 @@
 package com.example;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,16 @@ public class TestController {
         Map<String, String> response = new HashMap<>();
         response.put("result", "Received: " + payload.get("data"));
         response.put("tokenUsed", payload.get("token"));
+        return response;
+    }
+
+    @GetMapping("/api/test-get")
+    @ResponseBody
+    public Map<String, String> handleGet(@RequestParam(name = "id", defaultValue = "0") String id) {
+        Map<String, String> response = new HashMap<>();
+        response.put("status", "success");
+        response.put("message", "Data retrieved for ID: " + id);
+        response.put("timestamp", java.time.LocalDateTime.now().toString());
         return response;
     }
 }

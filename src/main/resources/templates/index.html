@@ -11,9 +11,9 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <style>
-        .bg-purple{
-            background-color: purple;
-        }
+      .bg-purple {
+        background-color: purple;
+      }
     </style>
   </head>
   <body class="p-5">
@@ -29,6 +29,9 @@
           placeholder="Enter text"
         />
         <button type="submit" class="btn btn-success">Send Ajax POST</button>
+        <button type="button" id="jqueryGetBtn" class="btn btn-outline-info">
+          Ajax GET
+        </button>
       </form>
       <div id="output" class="mt-4"></div>
 
@@ -74,7 +77,7 @@
 
     <script th:inline="javascript">
       /*<![CDATA[*/
-      // 1. JQuery Request
+      // --- JQuery Ajax POST Request ---
       document
         .getElementById("labForm")
         .addEventListener("submit", function (e) {
@@ -92,6 +95,33 @@
             success: function (res) {
               $("#output").html(
                 `<div class="alert alert-success">${res.result} (Token: ${res.tokenUsed})</div>`,
+              );
+            },
+          });
+        });
+
+      // --- JQuery Ajax GET Request ---
+      document
+        .getElementById("jqueryGetBtn")
+        .addEventListener("click", function () {
+          console.log("Attempting jQuery GET...");
+
+          $.ajax({
+            type: "GET",
+            url: "/api/test-get",
+            data: { id: "123" }, // Sent as query params: ?id=123
+            success: function (res) {
+              $("#output").html(`
+                    <div class="alert alert-info">
+                        <strong>GET Success!</strong><br>
+                        ${res.message}<br>
+                        <small>Time: ${res.timestamp}</small>
+                    </div>
+                `);
+            },
+            error: function (xhr) {
+              $("#output").html(
+                `<div class="alert alert-danger">GET Error: ${xhr.status}</div>`,
               );
             },
           });
